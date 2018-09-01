@@ -49,12 +49,12 @@
 // include the library code:
 #include "ShiftLCD.h"
 
-int SER = 0;
-int RCK = 1;
-int SCK = 2;
+int DATAPIN = 0;//SER   - Data
+int LATCHPIN = 1;//RCK  - Reset Clock
+int CLOCKPIN = 2;//SCK  - Clock
 
 // initialize the library with the numbers of the interface pins
-ShiftLCD lcd(SER, SCK, RCK);
+ShiftLCD lcd(DATAPIN, SCK, LATCHPIN, 4);
 
 void setup() {
   // set up the LCD's number of rows and columns: 
