@@ -12,9 +12,9 @@
   The circuit:
  
  ---Shift Register 74HC595---
- * SR Pin 14 to Arduino pin 2
- * SR Pin 12 to Arduino pin 3
- * SR Pin 11 to Arduino pin 4
+ * SR Pin 14 to Arduino pin 2 | ATTINY PIN 0
+ * SR Pin 12 to Arduino pin 3 | ATTINY PIN 1
+ * SR Pin 11 to Arduino pin 4 | ATTINY PIN 2
  * SR Pin  8 to Ground
  * SR Pin 16 to +5v
  * SR Pin 13 to Ground
@@ -49,8 +49,12 @@
 // include the library code:
 #include "ShiftLCD.h"
 
+int SER = 0;
+int RCK = 1;
+int SCK = 2;
+
 // initialize the library with the numbers of the interface pins
-ShiftLCD lcd(0, 2, 1);
+ShiftLCD lcd(SER, SCK, RCK);
 
 void setup() {
   // set up the LCD's number of rows and columns: 
