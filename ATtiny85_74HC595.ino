@@ -48,15 +48,22 @@
 
 // include the library code:
 #include "ShiftLCD.h"
+#include "IRLib.h" // include the IRremote library
+
+#define RECEIVER_PIN 4 // define the IR receiver pin
+IRrecv receiver(RECEIVER_PIN); // create a receiver object of the IRrecv class
+IRdecode results; // create a results object of the decode_results class
 
 int DATAPIN = 0;//SER   - Data
 int LATCHPIN = 1;//RCK  - Reset Clock
 int CLOCKPIN = 2;//SCK  - Clock
 
 // initialize the library with the numbers of the interface pins
-ShiftLCD lcd(DATAPIN, SCK, LATCHPIN, 4);
+ShiftLCD lcd(DATAPIN, CLOCKPIN, LATCHPIN, 4);
 
 void setup() {
+  receiver.enableIRIn(); // enable the receiver
+  receiver.blink13(true); // enable blinking of the built-in LED when an IR signal is received
   // set up the LCD's number of rows and columns: 
   lcd.begin(16, 2);
   // Print a message to the LCD.
@@ -67,7 +74,12 @@ void setup() {
 }
 
 void loop() {
-  // set the cursor to column 0, line 1
-  delay(1000);
+  if (receiver.GetResults(&results)) { // decode the received signal and store it in results
+    if(results.decode()){
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(results.value);
+    }
+    receiver.resume(); // reset the receiver for the next code
+  }
 }
-
